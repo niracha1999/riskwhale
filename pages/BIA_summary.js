@@ -8,14 +8,19 @@ import { v4 as uuidv4 } from "uuid";
 const BIA_summary = () => {
   const [openTab, setOpenTab] = React.useState(0);
   const [data, setData] = useState({ areas: [] });
+  const [companyMTPD, setCompanyMTPD] = useState("");
+  const [companyRTO, setCompanyRTO] = useState("");
+  const [sumdata, setSumData] = useState({ areas: [] });
 
   useEffect(() => {
     if (localStorage.usertype == "company") {
       console.log("company user identified");
       getCompDetails();
+      getSummary();
     } else if (localStorage.usertype == "individual") {
       console.log("individual user identified");
       getIndDetails();
+      getSummary();
     } else {
       console.log("invalid type of user");
     }
@@ -41,16 +46,44 @@ const BIA_summary = () => {
   };
 
   const getCompDetails = async () => {
-    const user = localStorage.user;
-
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/company" + user
+      "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+        localStorage.user,
+      {
+        headers: {
+          "auth-token": localStorage.token,
+        },
+      }
     );
 
     console.log(result.data.functionaldepartments);
     setData({
       areas: result.data.functionaldepartments,
     });
+  };
+
+  const getSummary = async () => {
+    await axios
+      .get(
+        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user,
+
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        setSumData({
+          areas: response.data[0].department,
+        });
+        setCompanyMTPD(response.data[0].companymtpd);
+        setCompanyRTO(response.data[0].companyrto);
+        console.log(sumdata.areas);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const [activities, setActivities] = useState([
@@ -69,6 +102,10 @@ const BIA_summary = () => {
     },
   ]);
 
+  function getIndex(_id) {
+    return sumdata.areas.findIndex((area) => area._id === _id);
+  }
+
   return (
     <div>
       <MainMenu />
@@ -80,11 +117,11 @@ const BIA_summary = () => {
                 <li class="mb-2 px-4 py-4 text-gray-100 flex flex-row hover:text-blue-800  hover:bg-blue-300  hover:font-bold rounded rounded-lg">
                   <a
                     className={
-                      openTab === 1 ? "text-cream font-bold" : "text-blue-100"
+                      openTab === 0 ? "text-cream font-bold" : "text-blue-100"
                     }
                     onClick={(e) => {
                       e.preventDefault();
-                      setOpenTab(1);
+                      setOpenTab(0);
                     }}
                     data-toggle="tab"
                     href="#link1"
@@ -92,7 +129,7 @@ const BIA_summary = () => {
                     <span class="ml-2">Overall Summary</span>
                   </a>
                 </li>
-                {data.areas.map((area) => (
+                {sumdata.areas.map((area) => (
                   <li
                     key={area._id}
                     class="mb-2 px-4 py-4 text-gray-100 flex flex-row hover:text-blue-800  hover:bg-blue-300  hover:font-bold rounded rounded-lg"
@@ -119,7 +156,7 @@ const BIA_summary = () => {
 
             <div className="pb-4 py-12">
               <div class="ml-64 py-2 flex-col">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+                <div className={openTab === 0 ? "block" : "hidden"} id="link1">
                   <span>
                     <div className="text-center md:col-span-1 pl-14 mt-6">
                       <div className="sm:px-0">
@@ -140,9 +177,10 @@ const BIA_summary = () => {
                         <div className="text-center py-5 bg-white space-y-6 sm:p-6">
                           <div>
                             <label className="text-base font-medium text-blue-800">
-                              Your company should start to recover after 7 days,
+                              Your company should start to recover after{" "}
+                              {companyRTO},
                               <br />
-                              and no longer than 50 days
+                              and no longer than {companyMTPD}.
                             </label>
                           </div>
                         </div>
@@ -150,7 +188,7 @@ const BIA_summary = () => {
                     </div>
                   </span>
                 </div>
-                {data.areas.map((area) => (
+                {sumdata.areas.map((area) => (
                   <div key="area._id" class="ml-14 py-2 flex-col">
                     <div
                       className={openTab === area._id ? "block" : "hidden"}
@@ -161,10 +199,10 @@ const BIA_summary = () => {
                           <div className="text-center py-5 bg-white space-y-6 sm:p-6">
                             <div>
                               <label className="text-base font-medium text-blue-800">
-                                Your company should start to recover after 7
-                                days,
+                                This area should start to recover after{" "}
+                                {area.rto},
                                 <br />
-                                and no longer than 50 days
+                                and no longer than {area.mtpd}.
                               </label>
                             </div>
                           </div>
@@ -192,7 +230,7 @@ const BIA_summary = () => {
                                 type="text"
                                 className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                               >
-                                Bake 100 cakes
+                                {area.situation[0].normalsituation.objective}
                               </label>
                               <label className="block text-sm pl-2 font-medium text-blue-800">
                                 per day
@@ -200,146 +238,87 @@ const BIA_summary = () => {
                             </div>
                           </div>
                         </div>
-                        {activities.map((activity) => (
-                          <div
-                            key={activity.id}
-                            className="flex md:mt-0 md:col-span-2"
-                          >
-                            <div className="relative my-4 w-full mx-14 shadow sm:rounded-md sm:overflow-hidden">
-                              <div className="py-5 bg-white space-y-6 sm:p-6">
-                                <div>
-                                  <label className="block pb-2 text-sm font-medium text-blue-800">
-                                    Activity
-                                  </label>
-                                  <label
-                                    id="objective"
-                                    name="objective"
-                                    type="text"
-                                    className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                  >
-                                    Prepare ingredients
-                                  </label>
+                        {area.situation[0].normalsituation.activities.map(
+                          (activity) => (
+                            <div className="flex md:mt-0 md:col-span-2">
+                              <div className="relative my-4 w-full mx-14 shadow sm:rounded-md sm:overflow-hidden">
+                                <div className="py-5 bg-white space-y-6 sm:p-6">
+                                  <div>
+                                    <label className="block pb-2 text-sm font-medium text-blue-800">
+                                      Activity
+                                    </label>
+                                    <label
+                                      id="objective"
+                                      name="objective"
+                                      type="text"
+                                      className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    >
+                                      {activity.activity}
+                                    </label>
+                                  </div>
+                                  {activity.resources.map((resource) => (
+                                    <div className="flex">
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="resource"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Resource
+                                        </label>
+                                        <div className="h-6 w-80 mt-1 mr-4 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.resource}
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="typeofresource"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Type of Resource
+                                        </label>
+                                        <div className="h-6 w-64 mt-1 mr-4 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.typeofresources}
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="amount"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Amount
+                                        </label>
+                                        <div className="h-6 w-48 mt-1 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.amount}
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                                {activity.resources.map((resource, ri) => (
-                                  <div className="flex">
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="resource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Resource
-                                      </label>
-                                      <div className="h-6 w-80 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          flour
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="typeofresource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Type of Resource
-                                      </label>
-                                      <div className="h-6 w-64 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          raw ingredients
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="amount"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Amount
-                                      </label>
-                                      <div className="h-6 w-48 mt-1 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          30 bags
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                {activity.resources.map((resource, ri) => (
-                                  <div className="flex">
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="resource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Resource
-                                      </label>
-                                      <div className="h-6 w-80 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          butter
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="typeofresource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Type of Resource
-                                      </label>
-                                      <div className="h-6 w-64 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          raw ingredients
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="amount"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Amount
-                                      </label>
-                                      <div className="h-6 w-48 mt-1 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          2 bottles
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          )
+                        )}
                       </span>
                       <span>
                         <div className="md:col-span-1 pl-14">
@@ -361,7 +340,7 @@ const BIA_summary = () => {
                                 type="text"
                                 className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                               >
-                                Bake 30 cakes
+                                {area.situation[0].emergencysituation.objective}
                               </label>
                               <label className="block text-sm pl-2 font-medium text-blue-800">
                                 per day
@@ -369,88 +348,87 @@ const BIA_summary = () => {
                             </div>
                           </div>
                         </div>
-                        {emer_activities.map((activity) => (
-                          <div
-                            key={activity.id}
-                            className="flex md:mt-0 md:col-span-2"
-                          >
-                            <div className="relative my-4 w-full mx-14 shadow sm:rounded-md sm:overflow-hidden">
-                              <div className="py-5 bg-white space-y-6 sm:p-6">
-                                <div>
-                                  <label className="block pb-2 text-sm font-medium text-blue-800">
-                                    Activity
-                                  </label>
-                                  <label
-                                    id="objective"
-                                    name="objective"
-                                    type="text"
-                                    className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                  >
-                                    Prepare ingredients
-                                  </label>
-                                </div>
-                                {activity.emer_resources.map((resource, ri) => (
-                                  <div className="flex">
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="resource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Resource
-                                      </label>
-                                      <div className="h-6 w-80 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          Prepare ingredients
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="typeofresource"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Type of Resource
-                                      </label>
-                                      <div className="h-6 w-64 mt-1 mr-4 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          Prepare ingredients
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label
-                                        htmlFor="amount"
-                                        className="block text-sm font-medium text-blue-800"
-                                      >
-                                        Amount
-                                      </label>
-                                      <div className="h-6 w-48 mt-1 flex rounded-md shadow-sm ">
-                                        <label
-                                          id="objective"
-                                          name="objective"
-                                          type="text"
-                                          className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                        >
-                                          Prepare ingredients
-                                        </label>
-                                      </div>
-                                    </div>
+                        {area.situation[0].emergencysituation.activities.map(
+                          (activity) => (
+                            <div className="flex md:mt-0 md:col-span-2">
+                              <div className="relative my-4 w-full mx-14 shadow sm:rounded-md sm:overflow-hidden">
+                                <div className="py-5 bg-white space-y-6 sm:p-6">
+                                  <div>
+                                    <label className="block pb-2 text-sm font-medium text-blue-800">
+                                      Activity
+                                    </label>
+                                    <label
+                                      id="objective"
+                                      name="objective"
+                                      type="text"
+                                      className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    >
+                                      Prepare ingredients
+                                    </label>
                                   </div>
-                                ))}
+                                  {activity.resources.map((resource) => (
+                                    <div className="flex">
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="resource"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Resource
+                                        </label>
+                                        <div className="h-6 w-80 mt-1 mr-4 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.resource}
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="typeofresource"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Type of Resource
+                                        </label>
+                                        <div className="h-6 w-64 mt-1 mr-4 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.typeofresources}
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label
+                                          htmlFor="amount"
+                                          className="block text-sm font-medium text-blue-800"
+                                        >
+                                          Amount
+                                        </label>
+                                        <div className="h-6 w-48 mt-1 flex rounded-md shadow-sm ">
+                                          <label
+                                            id="objective"
+                                            name="objective"
+                                            type="text"
+                                            className="flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                          >
+                                            {resource.amount}
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          )
+                        )}
                       </span>
                     </div>
                   </div>

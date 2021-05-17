@@ -1,14 +1,24 @@
 import { MainMenu } from "../components/MainMenu";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const signin = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const success = () =>
+    toast("Login Successfully!", {
+      toastId: 1,
+    });
+  const wrongpass = () =>
+    toast.error("Password is wrong", {
+      toastId: 2,
+    });
 
   const authen = async () => {
     await axios
@@ -24,17 +34,20 @@ const signin = () => {
         const user = response.data.id_company;
 
         if (
-          response.data === "Password is wrong" ||
-          response.data === "Please confirm the information"
+          response.body === "Password is wrong" ||
+          response.body === "Please confirm the information"
         ) {
+          wrongpass();
           console.log("Bugg from front");
         } else {
+          success();
           localStorage.setItem("usertype", usertype);
           localStorage.setItem("token", token);
-          localStorage.setItem("user", user)
+          localStorage.setItem("user", user);
           console.log(localStorage.user);
           console.log(localStorage.usertype);
           console.log(localStorage.token);
+
           if (usertype === "company") {
             router.push("/functions_company");
           } else {
@@ -44,6 +57,7 @@ const signin = () => {
       })
       .catch((error) => {
         console.log(error);
+        wrongpass();
       });
   };
 
@@ -54,6 +68,26 @@ const signin = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="mt-36 max-w-md w-full space-y-8">
           <div>
+            <ToastContainer
+              toastId={1}
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+            ></ToastContainer>
+            <ToastContainer
+              toastId={2}
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+            ></ToastContainer>
             <img
               className="mx-auto h-20 w-auto"
               src="./assets/main_label.png"

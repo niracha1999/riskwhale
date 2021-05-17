@@ -1,5 +1,5 @@
 import { MainMenu } from "../components/MainMenu";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -9,21 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ScrollToPoint1 = () => {
-  window.scrollTo({
-    top: 490,
-    behavior: "smooth",
-  });
-};
-
-const ScrollToPoint2 = () => {
-  window.scrollTo({
-    top: 1600,
-    behavior: "smooth",
-  });
-};
-
-const signup_company = () => {
+const edit_profile_company = () => {
   const router = useRouter();
 
   const [inputFields, setInputFields] = useState([{ id: uuidv4(), dept: "" }]);
@@ -43,11 +29,6 @@ const signup_company = () => {
   const [confirmedname, setConfirmedname] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
-  const wrongpass = () =>
-    toast.error("Password is not matched", {
-      toastId: 2,
-    });
-
   const addField = () => {
     setInputFields([...inputFields, { id: uuidv4(), dept: "" }]);
   };
@@ -55,7 +36,7 @@ const signup_company = () => {
   const onChange = (id, event) => {
     const newInputFields = inputFields.map((i) => {
       if (i.id === id) {
-        return { ...i, [event.target.name]: event.target.value };
+        i[event.target.name] = event.target.value;
       }
       return i;
     });
@@ -63,19 +44,81 @@ const signup_company = () => {
     setInputFields(newInputFields);
   };
 
-  const removeField = (deptid) => {
-    setInputFields(inputFields.filter(({ id }) => id !== deptid));
+  const removeField = (id) => {
+    const values = [...inputFields];
+    values.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    );
+    setInputFields(values);
+  };
+
+  const wrongpass = () =>
+    toast.error("Password is not matched", {
+      toastId: 2,
+    });
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    if (password === retypepassword) {
+      await axios
+        .get(
+          "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+            localStorage.user,
+          {
+            headers: {
+              "auth-token": localStorage.token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data.functionaldepartments);
+
+          setEmail(response.data.email);
+          setCompanyname(response.data.companyname);
+          setKeypartners(response.data.businessmodel.keypartners);
+          setKeyactivities(response.data.businessmodel.keyactivities);
+          setKeyresources(response.data.businessmodel.keyresources);
+          setValueproposition(response.data.businessmodel.valueproposition);
+          setCustomerrelationships(
+            response.data.businessmodel.customerrelationships
+          );
+          setChannels(response.data.businessmodel.channels);
+          setCustomersegments(response.data.businessmodel.customersegments);
+          setCoststructure(response.data.businessmodel.coststructure);
+          setRevenuestream(response.data.businessmodel.revenuestream);
+          setConfirmedname(response.data.confirmed);
+          setInputFields(
+            response.data.functionaldepartments.map(
+              ({ _id: id, name: dept }) => ({
+                id,
+                dept,
+              })
+            )
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log("password is not the same");
+    }
   };
 
   const postDept = inputFields.map(({ dept: name }) => ({
     name: name,
   }));
 
-  const authen = async () => {
-    console.log(postDept);
-    if (password === retypepassword) {
-      await axios
-        .post("http://api-riskwhale.herokuapp.com/user/signup-company", {
+  const saveItems = async () => {
+    await axios
+      .post(
+        "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+          localStorage.user +
+          "/edit",
+        {
           email: email,
           password: password,
           retypepassword: retypepassword,
@@ -94,23 +137,25 @@ const signup_company = () => {
           functionaldepartments: postDept,
           confirmed: confirmedname,
           tick: confirmed,
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.data === "Email already exist") {
-            console.log("Bugg from front");
-          } else {
-            router.push("/signin");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      console.log("password is not the same");
-      wrongpass();
-    }
-    
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        wrongpass();
+      });
+  };
+
+  const saveProfile = () => {
+    saveItems();
+    router.push("/profile_company");
   };
 
   return (
@@ -122,7 +167,7 @@ const signup_company = () => {
           method="post"
           onSubmit={(e) => {
             e.preventDefault();
-            authen();
+            saveProfile();
           }}
         >
           <div className="pt-40 px-14">
@@ -184,7 +229,7 @@ const signup_company = () => {
                         htmlFor="password"
                         className="block text-sm font-medium text-blue-800"
                       >
-                        Password
+                        New Password
                       </label>
                       <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
                         <input
@@ -194,7 +239,6 @@ const signup_company = () => {
                           id="password"
                           name="password"
                           autoComplete="password"
-                          required
                           className=" focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                           placeholder=" password must have at least 8 characters"
                         />
@@ -206,7 +250,7 @@ const signup_company = () => {
                         htmlFor="retypepassword"
                         className="block text-sm font-medium text-blue-800"
                       >
-                        Re-type Password
+                        Re-type New Password
                       </label>
                       <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
                         <input
@@ -216,20 +260,11 @@ const signup_company = () => {
                           name="retypepassword"
                           type="password"
                           autoComplete="retypepassword"
-                          required
                           className=" focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                           placeholder=" type password again to confirm"
                         />
                       </div>
                     </div>
-                  </div>
-                  <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button
-                      onClick={ScrollToPoint1}
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      Next
-                    </button>
                   </div>
                 </div>
               </div>
@@ -413,14 +448,6 @@ const signup_company = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button
-                      onClick={ScrollToPoint2}
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      Next
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -563,8 +590,11 @@ const signup_company = () => {
             </div>
           </div>
           <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
-            <button className=" w-56 inline-flex justify-center my-24 px-4 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Register
+            <button
+              typ="submit"
+              className="w-56 inline-flex justify-center my-24 px-4 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Save
             </button>
           </div>
         </form>
@@ -573,4 +603,4 @@ const signup_company = () => {
   );
 };
 
-export default signup_company;
+export default edit_profile_company;

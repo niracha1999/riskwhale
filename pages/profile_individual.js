@@ -5,13 +5,6 @@ import { useRouter } from "next/router";
 
 import axios from "axios";
 
-const ScrollToPoint1 = () => {
-  window.scrollTo({
-    top: 490,
-    behavior: "smooth",
-  });
-};
-
 const profile_individual = () => {
   const router = useRouter();
 
@@ -52,6 +45,10 @@ const profile_individual = () => {
     sessionStorage.clear();
     router.push("/signin");
   };
+
+  const editProfile = () => {
+    router.push("/edit_profile_individual");
+  }
 
   return (
     <div>
@@ -176,7 +173,7 @@ const profile_individual = () => {
         </div>
         <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
           <button
-            
+            onClick={editProfile}
             className="w-56 inline-flex justify-center my-24 mr-12 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Edit Profile

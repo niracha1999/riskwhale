@@ -74,6 +74,10 @@ const profile_company = () => {
     router.push("/signin");
   };
 
+  const editProfile = () => {
+    router.push("/edit_profile_company");
+  };
+
   return (
     <div>
       <MainMenu />
@@ -334,7 +338,10 @@ const profile_company = () => {
           </div>
         </div>
         <div className="px-4 py-3 bg-gray-50 text-center sm:px-6">
-          <button className="w-56 inline-flex justify-center my-24 mr-12 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <button
+            onClick={editProfile}
+            className="w-56 inline-flex justify-center my-24 mr-12 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
             Edit Profile
           </button>
           <button

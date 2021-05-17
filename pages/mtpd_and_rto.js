@@ -1,14 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { MainMenu } from "../components/MainMenu";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const mtpd_and_rto = () => {
+  const router = useRouter();
   const [data, setData] = useState({ areas: [] });
-  const [openTab, setOpenTab] = React.useState(0);
+  const [openTab, setOpenTab] = React.useState(1);
+  const [companyMTPD, setCompanyMTPD] = React.useState("");
+  const [companyRTO, setCompanyRTO] = React.useState("");
+  const [mockData, setMockData] = useState([
+    {
+      _id: "",
+      name: "",
+      mtpd: "",
+    },
+  ]);
+  const [mockData2, setMockData2] = useState([
+    {
+      _id: "",
+      name: "",
+      rto: "",
+    },
+  ]);
 
-  useEffect(async () => {
-    const result = await axios(
-      "http://api-riskwhale.herokuapp.com/userinfo/ind/" + localStorage.user,
+  console.log(data.areas);
+
+  useEffect(() => {
+    if (localStorage.usertype == "company") {
+      console.log("company user identified");
+      getCompDetails();
+    } else if (localStorage.usertype == "individual") {
+      console.log("individual user identified");
+      getIndDetails();
+    } else {
+      console.log("invalid type of user");
+    }
+  }, []);
+
+  const getIndDetails = async () => {
+    const result = await axios.get(
+      "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+        localStorage.user +
+        "?business=" +
+        localStorage.businesstype,
+
       {
         headers: {
           "auth-token": localStorage.token,
@@ -16,10 +52,135 @@ const mtpd_and_rto = () => {
       }
     );
 
+    console.log(result.data.functionaldepartments);
     setData({
       areas: result.data.functionaldepartments,
     });
-  }, []);
+  };
+
+  const getCompDetails = async () => {
+    const result = await axios.get(
+      "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+        localStorage.user,
+      {
+        headers: {
+          "auth-token": localStorage.token,
+        },
+      }
+    );
+
+    console.log(result.data.functionaldepartments);
+    setData({
+      areas: result.data.functionaldepartments,
+    });
+    setMockData(
+      result.data.functionaldepartments.map(({ _id: _id, name: name }) => ({
+        _id: _id,
+        name: name,
+        mtpd: "",
+      }))
+    );
+    setMockData2(
+      result.data.functionaldepartments.map(({ _id: _id, name: name }) => ({
+        _id: _id,
+        name: name,
+        rto: "",
+      }))
+    );
+  };
+
+  const inputChangedHandler = (event, _id) => {
+    const index = mockData.findIndex((element) => element._id === _id);
+
+    const updatedMockData = [...mockData];
+
+    updatedMockData[index] = {
+      ...updatedMockData[index],
+      mtpd: event.target.value,
+    };
+
+    setMockData(updatedMockData);
+  };
+
+  const inputChangedHandlerRTO = (event, _id) => {
+    const index = mockData2.findIndex((element) => element._id === _id);
+
+    const updatedMockData = [...mockData2];
+
+    updatedMockData[index] = {
+      ...updatedMockData[index],
+      rto: event.target.value,
+    };
+
+    setMockData2(updatedMockData);
+  };
+
+  const postBodyforMTPD = {
+    companymtpd: companyMTPD,
+    departmentmtpd: mockData.map(({ name: name, mtpd: mtpd }) => ({
+      name,
+      mtpd,
+    })),
+  };
+
+  const postMTPD = async () => {
+    await axios
+      .post(
+        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user + "/mtpd",
+        postBodyforMTPD,
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        postRTO();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postBodyforRTO = {
+    companyrto: companyRTO,
+    departmentrto: mockData2.map(({ name: name, rto: rto }) => ({
+      name,
+      rto,
+    })),
+  };
+
+  const postRTO = async () => {
+    console.log(postBodyforRTO);
+    await axios
+      .post(
+        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user + "/rto",
+        postBodyforRTO,
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        router.push("/BIA_summary");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const clickNext = () => {
+    setOpenTab(2);
+    console.log(mockData);
+  };
+
+  const clickSubmit = () => {
+    postMTPD();
+  };
+
   return (
     <div>
       <MainMenu />
@@ -109,8 +270,11 @@ const mtpd_and_rto = () => {
                                 </label>
 
                                 <input
-                                  id="objective"
-                                  name="objective"
+                                  onChange={(event) =>
+                                    inputChangedHandler(event, area._id)
+                                  }
+                                  id="mtpd"
+                                  name="mtpd"
                                   type="text"
                                   required
                                   className="ml-4 focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
@@ -125,7 +289,7 @@ const mtpd_and_rto = () => {
 
                           <div>
                             <label
-                              htmlFor="password"
+                              htmlFor="companyMTPD"
                               className="text-sm font-medium text-blue-800"
                             >
                               MTPD of the company
@@ -133,12 +297,14 @@ const mtpd_and_rto = () => {
 
                             <div className="h-6 w-2/5 ml-4 mt-1 flex rounded-md shadow-sm">
                               <input
-                                id="likelihood"
-                                name="objective"
-                                type="text"
+                                id="companyMTPD"
+                                name="companyMTPD"
+                                type="number"
                                 required
                                 className="ml-4 focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                                 placeholder=" type number of day"
+                                value={companyMTPD}
+                                onChange={(e) => setCompanyMTPD(e.target.value)}
                               />
                               <label className="block text-sm pl-2 font-medium text-blue-700">
                                 day(s)
@@ -148,7 +314,10 @@ const mtpd_and_rto = () => {
                         </div>
                       </div>
                       <div className="flex justify-center">
-                        <button className="justify-self-center mt-2 text-sm inline-flex py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <button
+                          onClick={clickNext}
+                          className="justify-self-center mt-2 text-sm inline-flex py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
                           Next
                         </button>
                       </div>
@@ -185,7 +354,7 @@ const mtpd_and_rto = () => {
                         <div className="py-5 bg-white space-y-6 sm:p-6">
                           <div>
                             <label
-                              htmlFor="password"
+                              htmlFor="companyRTO"
                               className="text-sm font-medium text-blue-800"
                             >
                               Fill-in RTO of each area
@@ -199,8 +368,11 @@ const mtpd_and_rto = () => {
                                   {area.name}
                                 </label>
                                 <input
-                                  id="likelihood"
-                                  name="objective"
+                                  onChange={(event) =>
+                                    inputChangedHandlerRTO(event, area._id)
+                                  }
+                                  id="rto"
+                                  name="rto"
                                   type="text"
                                   required
                                   className="ml-4 focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
@@ -215,7 +387,7 @@ const mtpd_and_rto = () => {
 
                           <div>
                             <label
-                              htmlFor="password"
+                              htmlFor="companyRTO"
                               className="text-sm font-medium text-blue-800"
                             >
                               RTO of the company
@@ -223,9 +395,11 @@ const mtpd_and_rto = () => {
 
                             <div className="h-6 w-2/5 ml-4 mt-1 flex rounded-md shadow-sm">
                               <input
-                                id="likelihood"
-                                name="objective"
-                                type="text"
+                                id="companyRTO"
+                                name="companyRTO"
+                                type="number"
+                                value={companyRTO}
+                                onChange={(e) => setCompanyRTO(e.target.value)}
                                 required
                                 className="ml-4 focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                                 placeholder=" type number of day"
@@ -238,7 +412,10 @@ const mtpd_and_rto = () => {
                         </div>
                       </div>
                       <div className="flex justify-center">
-                        <button className="justify-self-center mt-2 text-sm inline-flex py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <button
+                          onClick={clickSubmit}
+                          className="justify-self-center mt-2 text-sm inline-flex py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
                           Proceed to Result
                         </button>
                       </div>

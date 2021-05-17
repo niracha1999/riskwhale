@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { MainMenu } from "../components/MainMenu";
+import { useRouter } from "next/router";
 
 const functions_company = () => {
+  const router = useRouter();
+
+  const toBIA = () => {
+    router.push("/BIA_Home");
+  };
+
+  const toRA = () => {
+    router.push("/RA_Home");
+  };
+
+  const viewProfile = () => {
+    router.push("/profile_company");
+  };
+
   return (
     <div>
       <MainMenu />
@@ -17,18 +32,10 @@ const functions_company = () => {
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
               <div class="inline-flex rounded-md shadow">
                 <a
-                  href="#"
+                  onClick={viewProfile}
                   class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50"
                 >
-                  view business model canvas
-                </a>
-              </div>
-              <div class="ml-3 inline-flex rounded-md shadow">
-                <a
-                  href="#"
-                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50"
-                >
-                  view functional areas
+                  view business model canvas and functional areas
                 </a>
               </div>
             </div>
@@ -48,7 +55,7 @@ const functions_company = () => {
               or emergency.
             </dd>
             <a
-              href="#"
+              onClick={toBIA}
               class="small flex items-center justify-center mx-24 mt-12 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
             >
               Get started
@@ -68,7 +75,7 @@ const functions_company = () => {
               and summarized into a risk matrix.
             </dd>
             <a
-              href="#"
+              onClick={toRA}
               class="small flex items-center justify-center mx-24 mt-12 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
             >
               Get started

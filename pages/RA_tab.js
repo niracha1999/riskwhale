@@ -4,8 +4,11 @@ import axios from "axios";
 
 import { TrashIcon } from "@heroicons/react/solid";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 
 const RA_tab = () => {
+  const router = useRouter();
+
   const [openTab, setOpenTab] = React.useState(0);
   const [keypartners, setKeypartners] = useState("");
   const [keyactivities, setKeyactivities] = useState("");
@@ -96,32 +99,6 @@ const RA_tab = () => {
       });
   };
 
-  const postDetails = async () => {
-    console.log(postKeyPartners);
-    console.log("posting");
-
-    await axios
-      .post(
-        "http://api-riskwhale.herokuapp.com/ra/" + localStorage.user,
-        {
-          id_company: localStorage.user,
-          box:[postKeyPartners]
-        },
-
-        {
-          headers: {
-            "auth-token": localStorage.token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const [keypartners_inputFields, keypartners_setInputFields] = React.useState([
     {
       id: uuidv4(),
@@ -177,24 +154,22 @@ const RA_tab = () => {
     keypartners_setInputFields(values);
   };
 
-  const [
-    keyactivities_inputFields,
-    keyactivities_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "keyactivities",
-      keyactivities_typeofrisk: "",
-      keyactivities_risk: "",
-      keyactivities_financialrisk: "2",
-      keyactivities_healthrisk: "2",
-      keyactivities_naturalrisk: "2",
-      keyactivities_socialrisk: "2",
-      keyactivities_governmentrisk: "2",
-      keyactivities_legalrisk: "2",
-      keyactivities_likelihood: "",
-    },
-  ]);
+  const [keyactivities_inputFields, keyactivities_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "keyactivities",
+        keyactivities_typeofrisk: "",
+        keyactivities_risk: "",
+        keyactivities_financialrisk: "2",
+        keyactivities_healthrisk: "2",
+        keyactivities_naturalrisk: "2",
+        keyactivities_socialrisk: "2",
+        keyactivities_governmentrisk: "2",
+        keyactivities_legalrisk: "2",
+        keyactivities_likelihood: "",
+      },
+    ]);
 
   const keyactivities_addRisk = () => {
     keyactivities_setInputFields([
@@ -214,33 +189,6 @@ const RA_tab = () => {
       },
     ]);
   };
-
-  const postKeyPartners = keypartners_inputFields.map(
-    ({
-      typeofrisk: typeofrisks,
-      risk: risk,
-      financialrisk: financial,
-      healthrisk: healthandsafety,
-      naturalrisk: naturalenv,
-      socialrisk: socialheritage,
-      governmentrisk: government,
-      legalrisk: legal,
-      likelihood: likelihood,
-    }) => ({
-      model: "keypartners",
-      typeofrisks,
-      risk,
-      impacts: {
-        financial,
-        healthandsafety,
-        naturalenv,
-        socialheritage,
-        government,
-        legal,
-      },
-      likelihood,
-    })
-  );
 
   const keyactivities_onChange = (id, event) => {
     const keyactivities_newInputFields = keyactivities_inputFields.map((i) => {
@@ -262,24 +210,22 @@ const RA_tab = () => {
     keyactivities_setInputFields(values);
   };
 
-  const [
-    keyresources_inputFields,
-    keyresources_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "keyresources",
-      keyresources_typeofrisk: "",
-      keyresources_risk: "",
-      keyresources_financialrisk: "2",
-      keyresources_healthrisk: "2",
-      keyresources_naturalrisk: "2",
-      keyresources_socialrisk: "2",
-      keyresources_governmentrisk: "2",
-      keyresources_legalrisk: "2",
-      keyresources_likelihood: "",
-    },
-  ]);
+  const [keyresources_inputFields, keyresources_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "keyresources",
+        keyresources_typeofrisk: "",
+        keyresources_risk: "",
+        keyresources_financialrisk: "2",
+        keyresources_healthrisk: "2",
+        keyresources_naturalrisk: "2",
+        keyresources_socialrisk: "2",
+        keyresources_governmentrisk: "2",
+        keyresources_legalrisk: "2",
+        keyresources_likelihood: "",
+      },
+    ]);
 
   const keyresources_addRisk = () => {
     keyresources_setInputFields([
@@ -320,24 +266,22 @@ const RA_tab = () => {
     keyresources_setInputFields(values);
   };
 
-  const [
-    valueproposition_inputFields,
-    valueproposition_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "valueproposition",
-      valueproposition_typeofrisk: "",
-      valueproposition_risk: "",
-      valueproposition_financialrisk: "2",
-      valueproposition_healthrisk: "2",
-      valueproposition_naturalrisk: "2",
-      valueproposition_socialrisk: "2",
-      valueproposition_governmentrisk: "2",
-      valueproposition_legalrisk: "2",
-      valueproposition_likelihood: "",
-    },
-  ]);
+  const [valueproposition_inputFields, valueproposition_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "valueproposition",
+        valueproposition_typeofrisk: "",
+        valueproposition_risk: "",
+        valueproposition_financialrisk: "2",
+        valueproposition_healthrisk: "2",
+        valueproposition_naturalrisk: "2",
+        valueproposition_socialrisk: "2",
+        valueproposition_governmentrisk: "2",
+        valueproposition_legalrisk: "2",
+        valueproposition_likelihood: "",
+      },
+    ]);
 
   const valueproposition_addRisk = () => {
     valueproposition_setInputFields([
@@ -419,14 +363,13 @@ const RA_tab = () => {
   };
 
   const customerrelationships_onChange = (id, event) => {
-    const customerrelationships_newInputFields = customerrelationships_inputFields.map(
-      (i) => {
+    const customerrelationships_newInputFields =
+      customerrelationships_inputFields.map((i) => {
         if (id === i.id) {
           i[event.target.name] = event.target.value;
         }
         return i;
-      }
-    );
+      });
 
     customerrelationships_setInputFields(customerrelationships_newInputFields);
   };
@@ -495,24 +438,22 @@ const RA_tab = () => {
     channels_setInputFields(values);
   };
 
-  const [
-    customersegments_inputFields,
-    customersegments_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "customersegments",
-      customersegments_typeofrisk: "",
-      customersegments_risk: "",
-      customersegments_financialrisk: "2",
-      customersegments_healthrisk: "2",
-      customersegments_naturalrisk: "2",
-      customersegments_socialrisk: "2",
-      customersegments_governmentrisk: "2",
-      customersegments_legalrisk: "2",
-      customersegments_likelihood: "",
-    },
-  ]);
+  const [customersegments_inputFields, customersegments_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "customersegments",
+        customersegments_typeofrisk: "",
+        customersegments_risk: "",
+        customersegments_financialrisk: "2",
+        customersegments_healthrisk: "2",
+        customersegments_naturalrisk: "2",
+        customersegments_socialrisk: "2",
+        customersegments_governmentrisk: "2",
+        customersegments_legalrisk: "2",
+        customersegments_likelihood: "",
+      },
+    ]);
 
   const customersegments_addRisk = () => {
     customersegments_setInputFields([
@@ -555,24 +496,22 @@ const RA_tab = () => {
     customersegments_setInputFields(values);
   };
 
-  const [
-    coststructure_inputFields,
-    coststructure_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "coststructure",
-      coststructure_typeofrisk: "",
-      coststructure_risk: "",
-      coststructure_financialrisk: "2",
-      coststructure_healthrisk: "2",
-      coststructure_naturalrisk: "2",
-      coststructure_socialrisk: "2",
-      coststructure_governmentrisk: "2",
-      coststructure_legalrisk: "2",
-      coststructure_likelihood: "",
-    },
-  ]);
+  const [coststructure_inputFields, coststructure_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "coststructure",
+        coststructure_typeofrisk: "",
+        coststructure_risk: "",
+        coststructure_financialrisk: "2",
+        coststructure_healthrisk: "2",
+        coststructure_naturalrisk: "2",
+        coststructure_socialrisk: "2",
+        coststructure_governmentrisk: "2",
+        coststructure_legalrisk: "2",
+        coststructure_likelihood: "",
+      },
+    ]);
 
   const coststructure_addRisk = () => {
     coststructure_setInputFields([
@@ -613,24 +552,22 @@ const RA_tab = () => {
     coststructure_setInputFields(values);
   };
 
-  const [
-    revenuestreams_inputFields,
-    revenuestreams_setInputFields,
-  ] = React.useState([
-    {
-      id: uuidv4(),
-      model: "revenuestreams",
-      revenuestreams_typeofrisk: "",
-      revenuestreams_risk: "",
-      revenuestreams_financialrisk: "2",
-      revenuestreams_healthrisk: "2",
-      revenuestreams_naturalrisk: "2",
-      revenuestreams_socialrisk: "2",
-      revenuestreams_governmentrisk: "2",
-      revenuestreams_legalrisk: "2",
-      revenuestreams_likelihood: "",
-    },
-  ]);
+  const [revenuestreams_inputFields, revenuestreams_setInputFields] =
+    React.useState([
+      {
+        id: uuidv4(),
+        model: "revenuestreams",
+        revenuestreams_typeofrisk: "",
+        revenuestreams_risk: "",
+        revenuestreams_financialrisk: "2",
+        revenuestreams_healthrisk: "2",
+        revenuestreams_naturalrisk: "2",
+        revenuestreams_socialrisk: "2",
+        revenuestreams_governmentrisk: "2",
+        revenuestreams_legalrisk: "2",
+        revenuestreams_likelihood: "",
+      },
+    ]);
 
   const revenuestreams_addRisk = () => {
     revenuestreams_setInputFields([
@@ -672,6 +609,287 @@ const RA_tab = () => {
     );
     revenuestreams_setInputFields(values);
   };
+
+  const postKeyPartners = keypartners_inputFields.map(
+    ({
+      typeofrisk: typeofrisks,
+      risk: risk,
+      financialrisk: financial,
+      healthrisk: healthandsafety,
+      naturalrisk: naturalenv,
+      socialrisk: socialheritage,
+      governmentrisk: government,
+      legalrisk: legal,
+      likelihood: likelihood,
+    }) => ({
+      model: "key partners",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postKeyActivities = keyactivities_inputFields.map(
+    ({
+      keyactivities_typeofrisk: typeofrisks,
+      keyactivities_risk: risk,
+      keyactivities_financialrisk: financial,
+      keyactivities_healthrisk: healthandsafety,
+      keyactivities_naturalrisk: naturalenv,
+      keyactivities_socialrisk: socialheritage,
+      keyactivities_governmentrisk: government,
+      keyactivities_legalrisk: legal,
+      keyactivities_likelihood: likelihood,
+    }) => ({
+      model: "key activities",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postKeyResources = keyresources_inputFields.map(
+    ({
+      keyresources_typeofrisk: typeofrisks,
+      keyresources_risk: risk,
+      keyresources_financialrisk: financial,
+      keyresources_healthrisk: healthandsafety,
+      keyresources_naturalrisk: naturalenv,
+      keyresources_socialrisk: socialheritage,
+      keyresources_governmentrisk: government,
+      keyresources_legalrisk: legal,
+      keyresources_likelihood: likelihood,
+    }) => ({
+      model: "key resources",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postValueProposition = valueproposition_inputFields.map(
+    ({
+      valueproposition_typeofrisk: typeofrisks,
+      valueproposition_risk: risk,
+      valueproposition_financialrisk: financial,
+      valueproposition_healthrisk: healthandsafety,
+      valueproposition_naturalrisk: naturalenv,
+      valueproposition_socialrisk: socialheritage,
+      valueproposition_governmentrisk: government,
+      valueproposition_legalrisk: legal,
+      valueproposition_likelihood: likelihood,
+    }) => ({
+      model: "valueproposition",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postCusRela = customerrelationships_inputFields.map(
+    ({
+      customerrelationships_typeofrisk: typeofrisks,
+      customerrelationships_risk: risk,
+      customerrelationships_financialrisk: financial,
+      customerrelationships_healthrisk: healthandsafety,
+      customerrelationships_naturalrisk: naturalenv,
+      customerrelationships_socialrisk: socialheritage,
+      customerrelationships_governmentrisk: government,
+      customerrelationships_legalrisk: legal,
+      customerrelationships_likelihood: likelihood,
+    }) => ({
+      model: "customer relationships",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postChannels = channels_inputFields.map(
+    ({
+      channels_typeofrisk: typeofrisks,
+      channels_risk: risk,
+      channels_financialrisk: financial,
+      channels_healthrisk: healthandsafety,
+      channels_naturalrisk: naturalenv,
+      channels_socialrisk: socialheritage,
+      channels_governmentrisk: government,
+      channels_legalrisk: legal,
+      channels_likelihood: likelihood,
+    }) => ({
+      model: "channels",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postCustSegments = customersegments_inputFields.map(
+    ({
+      customersegments_typeofrisk: typeofrisks,
+      customersegments_risk: risk,
+      customersegments_financialrisk: financial,
+      customersegments_healthrisk: healthandsafety,
+      customersegments_naturalrisk: naturalenv,
+      customersegments_socialrisk: socialheritage,
+      customersegments_governmentrisk: government,
+      customersegments_legalrisk: legal,
+      customersegments_likelihood: likelihood,
+    }) => ({
+      model: "customer segments",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postCostStructure = coststructure_inputFields.map(
+    ({
+      coststructure_typeofrisk: typeofrisks,
+      coststructure_risk: risk,
+      coststructure_financialrisk: financial,
+      coststructure_healthrisk: healthandsafety,
+      coststructure_naturalrisk: naturalenv,
+      coststructure_socialrisk: socialheritage,
+      coststructure_governmentrisk: government,
+      coststructure_legalrisk: legal,
+      coststructure_likelihood: likelihood,
+    }) => ({
+      model: "cost structure",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postRevenueStream = revenuestreams_inputFields.map(
+    ({
+      revenuestreams_typeofrisk: typeofrisks,
+      revenuestreams_risk: risk,
+      revenuestreams_financialrisk: financial,
+      revenuestreams_healthrisk: healthandsafety,
+      revenuestreams_naturalrisk: naturalenv,
+      revenuestreams_socialrisk: socialheritage,
+      revenuestreams_governmentrisk: government,
+      revenuestreams_legalrisk: legal,
+      revenuestreams_likelihood: likelihood,
+    }) => ({
+      model: "revenue streams",
+      typeofrisks,
+      risk,
+      impacts: {
+        financial,
+        healthandsafety,
+        naturalenv,
+        socialheritage,
+        government,
+        legal,
+      },
+      likelihood,
+    })
+  );
+
+  const postDetails = async () => {
+    Array.prototype.push.apply(postKeyPartners, postKeyActivities);
+    Array.prototype.push.apply(postKeyPartners, postKeyResources);
+    Array.prototype.push.apply(postKeyPartners, postKeyResources);
+    Array.prototype.push.apply(postKeyPartners, postValueProposition);
+    Array.prototype.push.apply(postKeyPartners, postCusRela);
+    Array.prototype.push.apply(postKeyPartners, postChannels);
+    Array.prototype.push.apply(postKeyPartners, postCustSegments);
+    Array.prototype.push.apply(postKeyPartners, postCostStructure);
+    Array.prototype.push.apply(postKeyPartners, postRevenueStream);
+    console.log(postKeyPartners);
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuapp.com/ra/" + localStorage.user,
+
+        {
+          id_company: localStorage.user,
+          box: postKeyPartners,
+        },
+
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        router.push("/riskmatrix");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <MainMenu />
@@ -858,8 +1076,6 @@ const RA_tab = () => {
                                 <select
                                   id="typeofrisk"
                                   name="typeofrisk"
-                                  autoComplete="typeofrisk"
-                                  placeholder="choose one"
                                   onChange={(event) =>
                                     onChange(keypartners_inputField.id, event)
                                   }
@@ -1159,7 +1375,7 @@ const RA_tab = () => {
                               >
                                 Likelihood
                               </label>
-                              <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                              <div>
                                 <select
                                   onChange={(event) =>
                                     onChange(keypartners_inputField.id, event)
@@ -1540,7 +1756,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       keyactivities_onChange(
@@ -1922,7 +2138,7 @@ const RA_tab = () => {
                               <label className="block text-sm font-medium text-blue-800">
                                 Likelihood
                               </label>
-                              <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                              <div>
                                 <select
                                   onChange={(event) =>
                                     keyresources_onChange(
@@ -2318,7 +2534,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       valueproposition_onChange(
@@ -2721,7 +2937,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       customerrelationships_onChange(
@@ -3107,7 +3323,7 @@ const RA_tab = () => {
                               <label className="block text-sm font-medium text-blue-800">
                                 Likelihood
                               </label>
-                              <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                              <div>
                                 <select
                                   onChange={(event) =>
                                     channels_onChange(
@@ -3501,7 +3717,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       customersegments_onChange(
@@ -3892,7 +4108,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       coststructure_onChange(
@@ -4281,7 +4497,7 @@ const RA_tab = () => {
                                 <label className="block text-sm font-medium text-blue-800">
                                   Likelihood
                                 </label>
-                                <div className="h-6 w-6/12 mt-1 flex rounded-md shadow-sm ">
+                                <div>
                                   <select
                                     onChange={(event) =>
                                       revenuestreams_onChange(

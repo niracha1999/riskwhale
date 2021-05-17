@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const ScrollToPoint1 = () => {
   window.scrollTo({
     top: 490,
@@ -21,30 +24,38 @@ const signup_individual = () => {
   const [occupation, setOccupation] = useState("");
   const [institute, setInstitute] = useState("");
 
+  const wrongpass = () =>
+    toast.error("Password is not matched", {
+      toastId: 2,
+    });
+
   const authen = async () => {
-    await axios
-      .post("http://api-riskwhale.herokuapp.com/user/signup-indiv", {
-        email: email,
-        password: password,
-        retypepassword: retypepassword,
-        firstname: firstname,
-        occupation: occupation,
-        institute: institute,
-      })
-      .then((response) => {
-        console.log(response);
+    if (password === retypepassword) {
+      await axios
+        .post("http://api-riskwhale.herokuapp.com/user/signup-indiv", {
+          email: email,
+          password: password,
+          retypepassword: retypepassword,
+          firstname: firstname,
+          occupation: occupation,
+          institute: institute,
+        })
+        .then((response) => {
+          console.log(response);
 
-        if (response.data === "Email already exist") {
-          console.log("Bugg from front");
-        } else {
-          NotificationManager.success("Success message", "Title here", 5000);
-
-          router.push("/signin");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          if (response.data === "Email already exist") {
+            console.log("Bugg from front");
+          } else {
+            router.push("/signin");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log("password is not the same");
+      wrongpass();
+    }
   };
 
   return (
@@ -57,6 +68,16 @@ const signup_individual = () => {
             Individual Registration
           </h1>
         </div>
+        <ToastContainer
+          toastId={2}
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+        ></ToastContainer>
         <div className="pt-24 px-14">
           <div className="md:grid md:grid-cols-3 md:gap-6 ">
             <div className="md:col-span-1 px-14">
