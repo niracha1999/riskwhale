@@ -862,7 +862,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
 
         {
           id_company: localStorage.user,
@@ -888,7 +888,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postKeyResources,
@@ -913,7 +913,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postKeyActivities,
@@ -938,7 +938,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postValueProposition,
@@ -963,7 +963,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postCusRela,
@@ -988,7 +988,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postChannels,
@@ -1013,7 +1013,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postCustSegments,
@@ -1038,7 +1038,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postCostStructure,
@@ -1063,7 +1063,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "https//api-riskwhale.herokuappp.com/ra/" + localStorage.user,
         {
           id_company: localStorage.user,
           box: postRevenueStream,
