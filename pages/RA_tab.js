@@ -1069,7 +1069,7 @@ const RA_tab = () => {
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
                                 <label
-                                  htmlFor="typeofrisk"
+                              
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Type of Risk
@@ -1102,7 +1102,7 @@ const RA_tab = () => {
                               </div>
                               <div className="col-span-3 sm:col-span-2">
                                 <label
-                                  htmlFor="email"
+                            
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Risk
@@ -1127,7 +1127,7 @@ const RA_tab = () => {
 
                             <div>
                               <label
-                                htmlFor="password"
+                                
                                 className="block pb-2 text-sm font-medium text-blue-800"
                               >
                                 Impacts
@@ -1135,8 +1135,7 @@ const RA_tab = () => {
 
                               <div className="rounded-md shadow-sm pb-2">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                                  
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Financial
@@ -1175,8 +1174,7 @@ const RA_tab = () => {
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                               
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Health and safety
@@ -1214,8 +1212,7 @@ const RA_tab = () => {
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                                 
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Natural environment
@@ -1253,8 +1250,7 @@ const RA_tab = () => {
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                           
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Social / Cultutal Heritage
@@ -1292,8 +1288,7 @@ const RA_tab = () => {
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                             
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Government / Reputation
@@ -1331,8 +1326,7 @@ const RA_tab = () => {
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
                                 <label
-                                  htmlFor="financial"
-                                  for="financial"
+                               
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Legal
@@ -1483,7 +1477,7 @@ const RA_tab = () => {
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
                                   <label
-                                    htmlFor="email"
+                            
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Risk
@@ -1511,7 +1505,7 @@ const RA_tab = () => {
 
                               <div>
                                 <label
-                                  htmlFor="password"
+                                
                                   className="block pb-2 text-sm font-medium text-blue-800"
                                 >
                                   Impacts
@@ -1519,7 +1513,7 @@ const RA_tab = () => {
 
                                 <div className="rounded-md shadow-sm pb-2">
                                   <label
-                                    htmlFor="financial"
+                                   
                                     className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                   >
                                     Financial
@@ -1831,7 +1825,7 @@ const RA_tab = () => {
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
                                 <label
-                                  htmlFor="typeofrisk"
+                                  
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Type of Risk
@@ -1869,7 +1863,7 @@ const RA_tab = () => {
                               </div>
                               <div className="col-span-3 sm:col-span-2">
                                 <label
-                                  htmlFor="email"
+                                
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Risk
@@ -1897,7 +1891,7 @@ const RA_tab = () => {
 
                             <div>
                               <label
-                                htmlFor="password"
+                               
                                 className="block pb-2 text-sm font-medium text-blue-800"
                               >
                                 Impacts
@@ -1905,7 +1899,7 @@ const RA_tab = () => {
 
                               <div className="rounded-md shadow-sm pb-2">
                                 <label
-                                  htmlFor="financial"
+                                 
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Financial
@@ -2213,7 +2207,7 @@ const RA_tab = () => {
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
                                   <label
-                                    htmlFor="typeofrisk"
+                                
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Type of Risk
@@ -2278,7 +2272,7 @@ const RA_tab = () => {
 
                               <div>
                                 <label
-                                  htmlFor="password"
+                                 
                                   className="block pb-2 text-sm font-medium text-blue-800"
                                 >
                                   Impacts
@@ -2286,7 +2280,7 @@ const RA_tab = () => {
 
                                 <div className="rounded-md shadow-sm pb-2">
                                   <label
-                                    htmlFor="financial"
+                                  
                                     className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                   >
                                     Financial
@@ -2611,7 +2605,7 @@ const RA_tab = () => {
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
                                   <label
-                                    htmlFor="typeofrisk"
+                                   
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Type of Risk
@@ -2651,7 +2645,7 @@ const RA_tab = () => {
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
                                   <label
-                                    htmlFor="email"
+                                   
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Risk
@@ -2681,7 +2675,7 @@ const RA_tab = () => {
 
                               <div>
                                 <label
-                                  htmlFor="password"
+                                  
                                   className="block pb-2 text-sm font-medium text-blue-800"
                                 >
                                   Impacts
@@ -2689,7 +2683,7 @@ const RA_tab = () => {
 
                                 <div className="rounded-md shadow-sm pb-2">
                                   <label
-                                    htmlFor="financial"
+                                   
                                     className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                   >
                                     Financial
@@ -3013,7 +3007,7 @@ const RA_tab = () => {
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
                                 <label
-                                  htmlFor="typeofrisk"
+                                
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Type of Risk
@@ -3051,7 +3045,7 @@ const RA_tab = () => {
                               </div>
                               <div className="col-span-3 sm:col-span-2">
                                 <label
-                                  htmlFor="email"
+                                 
                                   className="block text-sm font-medium text-blue-800"
                                 >
                                   Risk
@@ -3079,7 +3073,7 @@ const RA_tab = () => {
 
                             <div>
                               <label
-                                htmlFor="password"
+                               
                                 className="block pb-2 text-sm font-medium text-blue-800"
                               >
                                 Impacts
@@ -3087,7 +3081,7 @@ const RA_tab = () => {
 
                               <div className="rounded-md shadow-sm pb-2">
                                 <label
-                                  htmlFor="financial"
+                                 
                                   className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                 >
                                   Financial
@@ -3393,7 +3387,7 @@ const RA_tab = () => {
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
                                   <label
-                                    htmlFor="typeofrisk"
+                                    
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Type of Risk
@@ -3433,7 +3427,7 @@ const RA_tab = () => {
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
                                   <label
-                                    htmlFor="email"
+                                   
                                     className="block text-sm font-medium text-blue-800"
                                   >
                                     Risk
@@ -3461,7 +3455,7 @@ const RA_tab = () => {
 
                               <div>
                                 <label
-                                  htmlFor="password"
+                                  
                                   className="block pb-2 text-sm font-medium text-blue-800"
                                 >
                                   Impacts
@@ -3469,7 +3463,7 @@ const RA_tab = () => {
 
                                 <div className="rounded-md shadow-sm pb-2">
                                   <label
-                                    htmlFor="financial"
+                                   
                                     className="pt-4 pr-6 text-sm font-medium text-blue-600"
                                   >
                                     Financial
