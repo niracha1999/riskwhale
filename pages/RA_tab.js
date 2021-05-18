@@ -6,6 +6,9 @@ import { TrashIcon } from "@heroicons/react/solid";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RA_tab = () => {
   const router = useRouter();
 
@@ -854,28 +857,17 @@ const RA_tab = () => {
     })
   );
 
-  const postDetails = async () => {
-    Array.prototype.push.apply(postKeyPartners, postKeyActivities);
-    Array.prototype.push.apply(postKeyPartners, postKeyResources);
-    Array.prototype.push.apply(postKeyPartners, postKeyResources);
-    Array.prototype.push.apply(postKeyPartners, postValueProposition);
-    Array.prototype.push.apply(postKeyPartners, postCusRela);
-    Array.prototype.push.apply(postKeyPartners, postChannels);
-    Array.prototype.push.apply(postKeyPartners, postCustSegments);
-    Array.prototype.push.apply(postKeyPartners, postCostStructure);
-    Array.prototype.push.apply(postKeyPartners, postRevenueStream);
-    console.log(postKeyPartners);
+  const postKeyPartnersDetails = async () => {
     console.log("posting");
 
     await axios
       .post(
-        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
 
         {
           id_company: localStorage.user,
           box: postKeyPartners,
         },
-
         {
           headers: {
             "auth-token": localStorage.token,
@@ -884,18 +876,232 @@ const RA_tab = () => {
       )
       .then((response) => {
         console.log(response);
-        router.push("/riskmatrix");
+        successToast();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const postKeyResourceDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postKeyResources,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postKeyActivitiesDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postKeyActivities,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postValuePropositionDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postValueProposition,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postCustomerRelationDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postCusRela,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postChannelsDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postChannels,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postCustomerSegmentDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postCustSegments,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postCostStructureDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postCostStructure,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postRevenueDetails = async () => {
+    console.log("posting");
+
+    await axios
+      .post(
+        "http://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
+        {
+          id_company: localStorage.user,
+          box: postRevenueStream,
+        },
+        {
+          headers: {
+            "auth-token": localStorage.token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        successToast();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const successToast = () =>
+    toast("Submitted!", {
+      toastId: 1,
+    });
   return (
     <div>
       <MainMenu />
       <>
         <div className="pt-20">
+          <ToastContainer
+            toastId={1}
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+          ></ToastContainer>
           <div class="flex-1 flex block">
             <nav class="fixed bg-blue-600 w-64 h-screen">
               <div class="mt-10 mb-4">
@@ -1034,14 +1240,6 @@ const RA_tab = () => {
                     <span class="ml-2">Revenue Streams</span>
                   </a>
                 </li>
-                <div className="relative justify-center ml-16">
-                  <button
-                    onClick={postDetails}
-                    className="justify-self-center mt-4 text-sm py-2 px-8 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-white-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
-                  >
-                    Submit
-                  </button>
-                </div>
               </div>
             </nav>
 
@@ -1068,10 +1266,7 @@ const RA_tab = () => {
                           <div className="py-5 bg-white space-y-6 sm:p-6">
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
-                                <label
-                              
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Type of Risk
                                 </label>
                                 <select
@@ -1101,10 +1296,7 @@ const RA_tab = () => {
                                 </select>
                               </div>
                               <div className="col-span-3 sm:col-span-2">
-                                <label
-                            
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Risk
                                 </label>
                                 <div className="mt-1 flex rounded-md shadow-sm">
@@ -1126,18 +1318,12 @@ const RA_tab = () => {
                             </div>
 
                             <div>
-                              <label
-                                
-                                className="block pb-2 text-sm font-medium text-blue-800"
-                              >
+                              <label className="block pb-2 text-sm font-medium text-blue-800">
                                 Impacts
                               </label>
 
                               <div className="rounded-md shadow-sm pb-2">
-                                <label
-                                  
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Financial
                                 </label>
 
@@ -1173,10 +1359,7 @@ const RA_tab = () => {
                                 </label>
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
-                                <label
-                               
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Health and safety
                                 </label>
 
@@ -1211,10 +1394,7 @@ const RA_tab = () => {
                                 </label>
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
-                                <label
-                                 
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Natural environment
                                 </label>
 
@@ -1249,10 +1429,7 @@ const RA_tab = () => {
                                 </label>
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
-                                <label
-                           
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Social / Cultutal Heritage
                                 </label>
 
@@ -1287,10 +1464,7 @@ const RA_tab = () => {
                                 </label>
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
-                                <label
-                             
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Government / Reputation
                                 </label>
 
@@ -1325,10 +1499,7 @@ const RA_tab = () => {
                                 </label>
                               </div>
                               <div className="pb-2 rounded-md shadow-sm ">
-                                <label
-                               
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Legal
                                 </label>
 
@@ -1414,6 +1585,14 @@ const RA_tab = () => {
                         </div>
                       </div>
                     ))}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postKeyPartnersDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
@@ -1476,10 +1655,7 @@ const RA_tab = () => {
                                   </select>
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
-                                  <label
-                            
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Risk
                                   </label>
                                   <div className="mt-1 flex rounded-md shadow-sm">
@@ -1504,18 +1680,12 @@ const RA_tab = () => {
                               </div>
 
                               <div>
-                                <label
-                                
-                                  className="block pb-2 text-sm font-medium text-blue-800"
-                                >
+                                <label className="block pb-2 text-sm font-medium text-blue-800">
                                   Impacts
                                 </label>
 
                                 <div className="rounded-md shadow-sm pb-2">
-                                  <label
-                                   
-                                    className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                  >
+                                  <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                     Financial
                                   </label>
 
@@ -1801,6 +1971,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postKeyActivitiesDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 3 ? "block" : "hidden"} id="link3">
@@ -1824,10 +2002,7 @@ const RA_tab = () => {
                           <div className="py-5 bg-white space-y-6 sm:p-6">
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
-                                <label
-                                  
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Type of Risk
                                 </label>
                                 <select
@@ -1862,10 +2037,7 @@ const RA_tab = () => {
                                 </select>
                               </div>
                               <div className="col-span-3 sm:col-span-2">
-                                <label
-                                
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Risk
                                 </label>
                                 <div className="mt-1 flex rounded-md shadow-sm">
@@ -1890,18 +2062,12 @@ const RA_tab = () => {
                             </div>
 
                             <div>
-                              <label
-                               
-                                className="block pb-2 text-sm font-medium text-blue-800"
-                              >
+                              <label className="block pb-2 text-sm font-medium text-blue-800">
                                 Impacts
                               </label>
 
                               <div className="rounded-md shadow-sm pb-2">
-                                <label
-                                 
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Financial
                                 </label>
 
@@ -2182,6 +2348,14 @@ const RA_tab = () => {
                         </div>
                       </div>
                     ))}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postKeyResourceDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 4 ? "block" : "hidden"} id="link4">
@@ -2206,10 +2380,7 @@ const RA_tab = () => {
                             <div className="py-5 bg-white space-y-6 sm:p-6">
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
-                                  <label
-                                
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Type of Risk
                                   </label>
                                   <select
@@ -2271,18 +2442,12 @@ const RA_tab = () => {
                               </div>
 
                               <div>
-                                <label
-                                 
-                                  className="block pb-2 text-sm font-medium text-blue-800"
-                                >
+                                <label className="block pb-2 text-sm font-medium text-blue-800">
                                   Impacts
                                 </label>
 
                                 <div className="rounded-md shadow-sm pb-2">
-                                  <label
-                                  
-                                    className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                  >
+                                  <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                     Financial
                                   </label>
 
@@ -2580,6 +2745,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postValuePropositionDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 5 ? "block" : "hidden"} id="link5">
@@ -2604,10 +2777,7 @@ const RA_tab = () => {
                             <div className="py-5 bg-white space-y-6 sm:p-6">
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
-                                  <label
-                                   
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Type of Risk
                                   </label>
                                   <select
@@ -2644,10 +2814,7 @@ const RA_tab = () => {
                                   </select>
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
-                                  <label
-                                   
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Risk
                                   </label>
                                   <div className="mt-1 flex rounded-md shadow-sm">
@@ -2674,18 +2841,12 @@ const RA_tab = () => {
                               </div>
 
                               <div>
-                                <label
-                                  
-                                  className="block pb-2 text-sm font-medium text-blue-800"
-                                >
+                                <label className="block pb-2 text-sm font-medium text-blue-800">
                                   Impacts
                                 </label>
 
                                 <div className="rounded-md shadow-sm pb-2">
-                                  <label
-                                   
-                                    className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                  >
+                                  <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                     Financial
                                   </label>
 
@@ -2983,6 +3144,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postCustomerRelationDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 6 ? "block" : "hidden"} id="link6">
@@ -3006,10 +3175,7 @@ const RA_tab = () => {
                           <div className="py-5 bg-white space-y-6 sm:p-6">
                             <div className="w-full grid grid-cols-3 gap-6">
                               <div className="col-span-6 sm:col-span-3">
-                                <label
-                                
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Type of Risk
                                 </label>
                                 <select
@@ -3044,10 +3210,7 @@ const RA_tab = () => {
                                 </select>
                               </div>
                               <div className="col-span-3 sm:col-span-2">
-                                <label
-                                 
-                                  className="block text-sm font-medium text-blue-800"
-                                >
+                                <label className="block text-sm font-medium text-blue-800">
                                   Risk
                                 </label>
                                 <div className="mt-1 flex rounded-md shadow-sm">
@@ -3072,18 +3235,12 @@ const RA_tab = () => {
                             </div>
 
                             <div>
-                              <label
-                               
-                                className="block pb-2 text-sm font-medium text-blue-800"
-                              >
+                              <label className="block pb-2 text-sm font-medium text-blue-800">
                                 Impacts
                               </label>
 
                               <div className="rounded-md shadow-sm pb-2">
-                                <label
-                                 
-                                  className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                >
+                                <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                   Financial
                                 </label>
 
@@ -3362,6 +3519,14 @@ const RA_tab = () => {
                         </div>
                       </div>
                     ))}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postChannelsDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 7 ? "block" : "hidden"} id="link7">
@@ -3386,10 +3551,7 @@ const RA_tab = () => {
                             <div className="py-5 bg-white space-y-6 sm:p-6">
                               <div className="w-full grid grid-cols-3 gap-6">
                                 <div className="col-span-6 sm:col-span-3">
-                                  <label
-                                    
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Type of Risk
                                   </label>
                                   <select
@@ -3426,10 +3588,7 @@ const RA_tab = () => {
                                   </select>
                                 </div>
                                 <div className="col-span-3 sm:col-span-2">
-                                  <label
-                                   
-                                    className="block text-sm font-medium text-blue-800"
-                                  >
+                                  <label className="block text-sm font-medium text-blue-800">
                                     Risk
                                   </label>
                                   <div className="mt-1 flex rounded-md shadow-sm">
@@ -3454,18 +3613,12 @@ const RA_tab = () => {
                               </div>
 
                               <div>
-                                <label
-                                  
-                                  className="block pb-2 text-sm font-medium text-blue-800"
-                                >
+                                <label className="block pb-2 text-sm font-medium text-blue-800">
                                   Impacts
                                 </label>
 
                                 <div className="rounded-md shadow-sm pb-2">
-                                  <label
-                                   
-                                    className="pt-4 pr-6 text-sm font-medium text-blue-600"
-                                  >
+                                  <label className="pt-4 pr-6 text-sm font-medium text-blue-600">
                                     Financial
                                   </label>
 
@@ -3763,6 +3916,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postCustomerSegmentDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 8 ? "block" : "hidden"} id="link8">
@@ -4150,6 +4311,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postCostStructureDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
                 <div className={openTab === 9 ? "block" : "hidden"} id="link9">
@@ -4539,6 +4708,14 @@ const RA_tab = () => {
                         </div>
                       )
                     )}
+                    <div className="relative justify-center ml-96 mt-12 mb-12 w-full">
+                      <button
+                        onClick={postRevenueDetails}
+                        className="justify-self-center mt-4 text-sm py-2 px-14 border border-white shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-white-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </span>
                 </div>
               </div>
