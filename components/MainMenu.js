@@ -25,8 +25,32 @@ export const MainMenu = () => {
   const toFunctions = () => {
     if (localStorage.usertype == "company") {
       router.push("/functions_company");
-    } else {
+    } else if (localStorage.usertype == "individual") {
       router.push("/functions_individual");
+    } else {
+      router.push("/signin");
+    }
+  };
+
+  const toBIA = () => {
+    if (
+      localStorage.usertype == "individual" ||
+      localStorage.usertype == "company"
+    ) {
+      router.push("/BIA_Home");
+    } else {
+      router.push("/signin");
+    }
+  };
+
+  const toRA = () => {
+    if (
+      localStorage.usertype == "individual" ||
+      localStorage.usertype == "company"
+    ) {
+      router.push("/RA_Home");
+    } else {
+      router.push("/signin");
     }
   };
 
@@ -165,14 +189,14 @@ export const MainMenu = () => {
                 <div className="py-6 px-5 space-y-6">
                   <div className="grid grid-cols-2 gap-y-4 gap-x-8">
                     <a
-                      href="/BIA_Home"
+                      onClick={toBIA}
                       className="text-base font-medium text-gray-900 hover:text-gray-700"
                     >
                       Business Impact Analysis
                     </a>
 
                     <a
-                      href="/RA_Home"
+                      onClick={toRA}
                       className="text-base font-medium text-gray-900 hover:text-gray-700"
                     >
                       Risk Assessment

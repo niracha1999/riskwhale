@@ -7,8 +7,10 @@ export default function Home() {
   const getstart = () => {
     if (localStorage.usertype == "company") {
       router.push("/functions_company");
-    } else {
+    } else if (localStorage.usertype == "individual") {
       router.push("/functions_individual");
+    } else {
+      router.push("/signin");
     }
   };
   return (
