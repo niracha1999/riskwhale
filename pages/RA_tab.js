@@ -271,8 +271,8 @@ const RA_tab = () => {
       {
         id: uuidv4(),
         model: "valueproposition",
-        valueproposition_typeofrisk: "operationalrisk",
-        valueproposition_risk: "this is risk",
+        valueproposition_typeofrisk: "",
+        valueproposition_risk: "",
         valueproposition_financialrisk: "2",
         valueproposition_healthrisk: "2",
         valueproposition_naturalrisk: "2",
@@ -282,6 +282,7 @@ const RA_tab = () => {
         valueproposition_likelihood: "",
       },
     ]);
+  console.log(valueproposition_inputFields);
 
   const valueproposition_addRisk = () => {
     valueproposition_setInputFields([
@@ -863,7 +864,7 @@ const RA_tab = () => {
     Array.prototype.push.apply(postKeyPartners, postCustSegments);
     Array.prototype.push.apply(postKeyPartners, postCostStructure);
     Array.prototype.push.apply(postKeyPartners, postRevenueStream);
-    console.log(postValueProposition);
+    console.log(postKeyPartners);
     console.log("posting");
 
     await axios
@@ -2218,9 +2219,9 @@ const RA_tab = () => {
                                     Type of Risk
                                   </label>
                                   <select
-                                    id="keyresources_typeofrisk"
-                                    name="keyresources_typeofrisk"
-                                    autoComplete="keyresources_typeofrisk"
+                                    id="valueproposition_typeofrisk"
+                                    name="valueproposition_typeofrisk"
+                                    autoComplete="valueproposition_typeofrisk"
                                     placeholder="choose one"
                                     onChange={(event) =>
                                       valueproposition_onChange(
@@ -2263,10 +2264,10 @@ const RA_tab = () => {
                                         )
                                       }
                                       value={valueproposition_inputField.risk}
+                                      id="valueproposition_risk"
+                                      name="valueproposition_risk"
+                                      autoComplete="valueproposition_risk"
                                       type="text"
-                                      name="valuepropositionrisk"
-                                      id="valuepropositionrisk"
-                                      autoComplete="valuepropositionrisk"
                                       required
                                       className="focus:ring-blue-500 focus:border-blue-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
                                       placeholder=" identify a risk"
