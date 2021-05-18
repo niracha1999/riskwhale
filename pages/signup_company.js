@@ -75,7 +75,7 @@ const signup_company = () => {
     console.log(postDept);
     if (password === retypepassword) {
       await axios
-        .post("http://api-riskwhale.herokuapp.com/user/signup-company", {
+        .post("https://api-riskwhale.herokuapp.com/user/signup-company", {
           email: email,
           password: password,
           retypepassword: retypepassword,
@@ -110,7 +110,6 @@ const signup_company = () => {
       console.log("password is not the same");
       wrongpass();
     }
-    
   };
 
   return (

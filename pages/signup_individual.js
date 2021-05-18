@@ -32,7 +32,7 @@ const signup_individual = () => {
   const authen = async () => {
     if (password === retypepassword) {
       await axios
-        .post("http://api-riskwhale.herokuapp.com/user/signup-indiv", {
+        .post("https://api-riskwhale.herokuapp.com/user/signup-indiv", {
           email: email,
           password: password,
           retypepassword: retypepassword,
