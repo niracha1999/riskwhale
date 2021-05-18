@@ -27,7 +27,7 @@ const BIA_summary = () => {
   }, []);
   const getIndDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/ind/" +
         localStorage.user +
         "?business=" +
         localStorage.businesstype,
@@ -47,7 +47,7 @@ const BIA_summary = () => {
 
   const getCompDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/company/" +
         localStorage.user,
       {
         headers: {
@@ -65,7 +65,7 @@ const BIA_summary = () => {
   const getSummary = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user,
+        "https://api-riskwhale.herokuapp.com/bia/" + localStorage.user,
 
         {
           headers: {

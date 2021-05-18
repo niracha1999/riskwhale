@@ -31,7 +31,7 @@ class ComponentToPrint extends React.Component {
     console.log("moutning");
     axios
       .get(
-        "http://api-riskwhale.herokuapp.com/ra/" +
+        "https://api-riskwhale.herokuapp.com/ra/" +
           localStorage.user +
           "/result",
         {

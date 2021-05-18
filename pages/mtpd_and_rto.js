@@ -40,7 +40,7 @@ const mtpd_and_rto = () => {
 
   const getIndDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/ind/" +
         localStorage.user +
         "?business=" +
         localStorage.businesstype,
@@ -60,7 +60,7 @@ const mtpd_and_rto = () => {
 
   const getCompDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/company/" +
         localStorage.user,
       {
         headers: {
@@ -126,7 +126,9 @@ const mtpd_and_rto = () => {
   const postMTPD = async () => {
     await axios
       .post(
-        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user + "/mtpd",
+        "https://api-riskwhale.herokuapp.com/bia/" +
+          localStorage.user +
+          "/mtpd",
         postBodyforMTPD,
         {
           headers: {
@@ -155,7 +157,7 @@ const mtpd_and_rto = () => {
     console.log(postBodyforRTO);
     await axios
       .post(
-        "http://api-riskwhale.herokuapp.com/bia/" + localStorage.user + "/rto",
+        "https://api-riskwhale.herokuapp.com/bia/" + localStorage.user + "/rto",
         postBodyforRTO,
         {
           headers: {

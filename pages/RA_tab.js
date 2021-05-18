@@ -34,7 +34,7 @@ const RA_tab = () => {
   const getIndDetails = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+        "https://api-riskwhale.herokuapp.com/userinfo/ind/" +
           localStorage.user +
           "?business=" +
           localStorage.businesstype,
@@ -70,7 +70,7 @@ const RA_tab = () => {
   const getCompDetails = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+        "https://api-riskwhale.herokuapp.com/userinfo/company/" +
           localStorage.user,
         {
           headers: {
@@ -868,7 +868,7 @@ const RA_tab = () => {
 
     await axios
       .post(
-        "http://api-riskwhale.herokuapp.com/ra/" + localStorage.user,
+        "https://api-riskwhale.herokuappp.com/ra/" + localStorage.user,
 
         {
           id_company: localStorage.user,

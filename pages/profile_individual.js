@@ -20,7 +20,7 @@ const profile_individual = () => {
   const fetchItems = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/userinfo/ind/" + localStorage.user,
+        "https://api-riskwhale.herokuapp.com/userinfo/ind/" + localStorage.user,
         {
           headers: {
             "auth-token": localStorage.token,
@@ -48,7 +48,7 @@ const profile_individual = () => {
 
   const editProfile = () => {
     router.push("/edit_profile_individual");
-  }
+  };
 
   return (
     <div>

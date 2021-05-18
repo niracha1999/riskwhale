@@ -236,7 +236,7 @@ const BIA_tab = ({ tab_names, tab_index }) => {
   const postDetails = async () => {
     await axios
       .post(
-        "http://api-riskwhale.herokuapp.com/" +
+        "https://api-riskwhale.herokuapp.com/" +
           "bia/" +
           localStorage.user +
           "/" +
@@ -644,7 +644,7 @@ export default function TabsRender() {
   }, []);
   const getIndDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/ind/" +
         localStorage.user +
         "?business=" +
         localStorage.businesstype,
@@ -664,7 +664,7 @@ export default function TabsRender() {
 
   const getCompDetails = async () => {
     const result = await axios.get(
-      "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+      "https://api-riskwhale.herokuapp.com/userinfo/company/" +
         localStorage.user,
       {
         headers: {

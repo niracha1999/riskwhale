@@ -30,7 +30,7 @@ const edit_profile_individual = () => {
   const fetchItems = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/userinfo/ind/" + localStorage.user,
+        "https://api-riskwhale.herokuapp.com/userinfo/ind/" + localStorage.user,
         {
           headers: {
             "auth-token": localStorage.token,
@@ -54,7 +54,7 @@ const edit_profile_individual = () => {
     if (password === retypepassword) {
       await axios
         .post(
-          "http://api-riskwhale.herokuapp.com/userinfo/ind/" +
+          "https://api-riskwhale.herokuapp.com/userinfo/ind/" +
             localStorage.user +
             "/edit",
           {

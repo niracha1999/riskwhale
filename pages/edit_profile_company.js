@@ -66,7 +66,7 @@ const edit_profile_company = () => {
     if (password === retypepassword) {
       await axios
         .get(
-          "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+          "https://api-riskwhale.herokuapp.com/userinfo/company/" +
             localStorage.user,
           {
             headers: {
@@ -115,7 +115,7 @@ const edit_profile_company = () => {
   const saveItems = async () => {
     await axios
       .post(
-        "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+        "https://api-riskwhale.herokuapp.com/userinfo/company/" +
           localStorage.user +
           "/edit",
         {

@@ -29,7 +29,7 @@ const profile_company = () => {
   const fetchItems = async () => {
     await axios
       .get(
-        "http://api-riskwhale.herokuapp.com/userinfo/company/" +
+        "https://api-riskwhale.herokuapp.com/userinfo/company/" +
           localStorage.user,
         {
           headers: {

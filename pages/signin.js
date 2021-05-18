@@ -22,7 +22,7 @@ const signin = () => {
 
   const authen = async () => {
     await axios
-      .post("http://api-riskwhale.herokuapp.com/user/login", {
+      .post("https://api-riskwhale.herokuapp.com/user/login", {
         email: email,
         password: password,
       })
